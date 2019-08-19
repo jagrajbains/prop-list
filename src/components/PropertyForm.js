@@ -84,10 +84,7 @@ export default class PropertyForm extends React.Component {
         description: this.state.description,
         amount: parseFloat(this.state.amount, 10).toLocaleString("en-IN"),
         title: this.state.title,
-        rating:
-          this.state.rating !== "not rated"
-            ? parseInt(this.state.rating)
-            : "not rated",
+        rating: this.state.rating ? this.state.rating : "not rated",
         url: this.state.url
       });
     }
