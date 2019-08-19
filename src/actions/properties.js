@@ -34,6 +34,19 @@ export const editProperty = (id, updates) => ({
   id,
   updates
 });
+
+//START_EDIT_PROPERTY
+export const startEditProperty = (id, updates) => {
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
+    return database
+      .ref(`users/${uid}/properties/${id}`)
+      .update(updates)
+      .then(() => {
+        dispatch(editProperty(id, updates));
+      });
+  };
+};
 //REMOVE_PROPERTY
 export const removeProperty = ({ id } = {}) => ({
   type: "REMOVE_PROPERTY",

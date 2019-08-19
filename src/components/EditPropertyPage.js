@@ -1,10 +1,18 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropertyForm from "./PropertyForm";
-import { editProperty, startRemoveProperty } from "../actions/properties";
+import {
+  editProperty,
+  startRemoveProperty,
+  startEditProperty
+} from "../actions/properties";
 import { Link } from "react-router-dom";
 
 class EditPropertyPage extends React.Component {
+  onSubmit = property => {
+    this.props.startEditProperty(this.props.property.id, property);
+    this.props.history.push(`/MyDashboard/${this.props.uid}`);
+  };
   onRemove = () => {
     this.props.startRemoveProperty({ id: this.props.property.id });
     this.props.history.push("/");
@@ -12,13 +20,7 @@ class EditPropertyPage extends React.Component {
   render() {
     return (
       <div className="container">
-        <PropertyForm
-          property={this.props.property}
-          onSubmit={property => {
-            this.props.dispatch(editProperty(this.props.property.id, property));
-            this.props.history.push("/");
-          }}
-        />
+        <PropertyForm property={this.props.property} onSubmit={this.onSubmit} />
         <button className="btn red" onClick={this.onRemove}>
           Remove
         </button>
@@ -44,7 +46,9 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    startRemoveProperty: data => dispatch(startRemoveProperty(data))
+    startRemoveProperty: data => dispatch(startRemoveProperty(data)),
+    startEditProperty: (id, property) =>
+      dispatch(startEditProperty(id, property))
   };
 };
 
