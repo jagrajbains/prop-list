@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import PropertyForm from "./PropertyForm";
 import { editProperty, startRemoveProperty } from "../actions/properties";
+import { Link } from "react-router-dom";
 
 class EditPropertyPage extends React.Component {
   onRemove = () => {
@@ -10,7 +11,7 @@ class EditPropertyPage extends React.Component {
   };
   render() {
     return (
-      <div>
+      <div className="container">
         <PropertyForm
           property={this.props.property}
           onSubmit={property => {
@@ -18,7 +19,15 @@ class EditPropertyPage extends React.Component {
             this.props.history.push("/");
           }}
         />
-        <button onClick={this.onRemove}>Remove</button>
+        <button className="btn red" onClick={this.onRemove}>
+          Remove
+        </button>
+        <Link
+          className="btn orange right"
+          to={`/MyDashboard/${this.props.uid}`}
+        >
+          Back
+        </Link>
       </div>
     );
   }
@@ -28,7 +37,8 @@ const mapStateToProps = (state, props) => {
   return {
     property: state.properties.find(
       property => property.id === props.match.params.id
-    )
+    ),
+    uid: state.auth.uid
   };
 };
 

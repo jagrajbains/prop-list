@@ -5,16 +5,18 @@ export const addProperty = property => ({
   property
 });
 export const startAddProperty = (propertyData = {}) => {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
     const {
       title = "",
       description = "",
       amount = 0,
-      rating = 0
+      rating = 0,
+      url = ""
     } = propertyData;
-    const property = { title, description, amount, rating };
-    database
-      .ref("properties")
+    const property = { title, description, amount, rating, url };
+    return database
+      .ref(`users/${uid}/properties`)
       .push(property)
       .then(ref => {
         dispatch(
@@ -60,7 +62,58 @@ export const setProperties = properties => ({
 export const startSetProperties = () => {
   return dispatch => {
     return database
-      .ref("properties")
+      .ref("users")
+      .once("value")
+      .then(snapshot => {
+        const arr = [];
+        snapshot.forEach(childSnapshot => {
+          arr.push(childSnapshot.val());
+        });
+        const objArr = [];
+        arr.forEach(obj => {
+          Object.entries(obj).forEach(([key, value]) => {
+            objArr.push(value);
+          });
+        });
+        const properties = [];
+        objArr.forEach(obj => {
+          Object.entries(obj).forEach(([key, value]) => {
+            properties.push({
+              id: key,
+              ...value
+            });
+          });
+        });
+        dispatch(setProperties(properties));
+      });
+    // return database
+    //   .ref("properties")
+    //   .once("value")
+    //   .then(snapshot => {
+    //     const properties = [];
+    //     snapshot.forEach(childSnapshot => {
+    //       properties.push({
+    //         id: childSnapshot.key,
+    //         ...childSnapshot.val()
+    //       });
+    //     });
+    //     dispatch(setProperties(properties));
+    //   });
+  };
+};
+
+//SET_MYDASHBOARD
+export const setMyDashboard = properties => ({
+  type: "SET_DASHBOARD",
+  properties
+});
+
+//START_SET_MYDASHBOARD
+export const startSetMyDashboard = () => {
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
+    return database
+      .ref(`users/${uid}/properties`)
       .once("value")
       .then(snapshot => {
         const properties = [];
@@ -70,7 +123,7 @@ export const startSetProperties = () => {
             ...childSnapshot.val()
           });
         });
-        dispatch(setProperties(properties));
+        dispatch(setMyDashboard(properties));
       });
   };
 };

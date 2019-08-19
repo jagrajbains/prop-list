@@ -1,31 +1,23 @@
 import React from "react";
-import PropertyList from "./PropertyList";
 import PropertyListFilters from "./PropertyListFilters";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { startSetProperties } from "../actions/properties";
+import { startSetMyDashboard } from "../actions/properties";
+import PropertyListDashboard from "./PropertyListDashboard";
 
-class Dashboard extends React.Component {
+class MyDashboard extends React.Component {
   componentDidMount() {
-    this.props.startSetProperties();
+    this.props.startSetMyDashboard();
   }
   render() {
     return (
       <div className="container">
-        {this.props.isAuthenticated && (
-          <Link
-            className="btn blue-grey darken-4"
-            to={`/MyDashboard/${this.props.uid}`}
-          >
-            Go To Your Dashboard
-          </Link>
-        )}
         <div className="row">
           <div className="col s2" style={{ marginTop: "25px" }}>
             <PropertyListFilters />
           </div>
           <div className="col s10">
-            <PropertyList />
+            <PropertyListDashboard />
           </div>
           <div className="fixed-action-btn">
             {this.props.isAuthenticated && (
@@ -41,17 +33,15 @@ class Dashboard extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: !!state.auth.uid,
-  uid: state.auth.uid
+  isAuthenticated: !!state.auth.uid
 });
 
 const mapDispatchToProps = dispatch => {
   return {
-    startSetProperties: () => dispatch(startSetProperties())
+    startSetMyDashboard: () => dispatch(startSetMyDashboard())
   };
 };
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Dashboard);
+)(MyDashboard);

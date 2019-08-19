@@ -15,6 +15,8 @@ export default (state = propertyReducerDefaultState, action) => {
       });
     case "SET_PROPERTIES":
       return action.properties;
+    case "SET_DASHBOARD":
+      return action.properties;
     default:
       return state;
   }

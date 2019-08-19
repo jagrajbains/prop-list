@@ -20,6 +20,7 @@ const PropertyListFilters = props => (
           props.dispatch(sortByRating());
         }
       }}
+      className="browser-default"
     >
       <option value="amount">Amount</option>
       <option value="rating">Rating</option>

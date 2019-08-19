@@ -10,7 +10,7 @@ export class AddPropertyPage extends React.Component {
   };
   render() {
     return (
-      <div>
+      <div className="container">
         <h1>Add New Property</h1>
         <PropertyForm onSubmit={this.onSubmit} />
       </div>
