@@ -1,11 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropertyForm from "./PropertyForm";
-import {
-  editProperty,
-  startRemoveProperty,
-  startEditProperty
-} from "../actions/properties";
+import { startRemoveProperty, startEditProperty } from "../actions/properties";
 import { Link } from "react-router-dom";
 
 class EditPropertyPage extends React.Component {

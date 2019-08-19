@@ -84,7 +84,7 @@ export default class PropertyForm extends React.Component {
         description: this.state.description,
         amount: parseFloat(this.state.amount, 10).toLocaleString("en-IN"),
         title: this.state.title,
-        rating: this.state.rating ? this.state.rating : "not rated",
+        rating: this.state.rating ? this.state.rating.toString() : "not rated",
         url: this.state.url
       });
     }
@@ -153,7 +153,7 @@ export default class PropertyForm extends React.Component {
             <option>5</option>
           </select>
           <button className="btn waves-effect" type="submit">
-            Add Property
+            Save Property
           </button>
         </form>
       </div>
